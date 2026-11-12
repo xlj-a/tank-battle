@@ -471,6 +471,7 @@ function updateGameplay() {
 
 // ---------- 渲染 ----------
 function drawTiles() {
+  if (!grid.length) return;
   for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
     const t = grid[r][c], x = c * TILE, y = r * TILE;
     if (t === BRICK) {
@@ -558,6 +559,7 @@ function drawBullets() {
 }
 
 function drawTrees() {
+  if (!grid.length) return;
   for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
     if (grid[r][c] !== TREE) continue;
     const x = c * TILE, y = r * TILE;
@@ -681,7 +683,8 @@ $('btnPause').addEventListener('click', togglePause);
 $('btnMute').addEventListener('click', toggleMute);
 $('btnRestart').addEventListener('click', newGame);
 
-// 初始渲染
+// 初始渲染：先解析第一关地图，否则空地图会导致渲染报错、游戏循环无法启动
+parseLevel(LEVELS[0]);
 render();
 requestAnimationFrame(loop);
 })();
